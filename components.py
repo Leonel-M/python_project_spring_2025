@@ -52,6 +52,22 @@ def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
     )
     return fig
 
+def pie(df, values, names,title=None):
+    """
+    :param df: DataFrame
+    :param values: Column name for the size of pie slices
+    :param names: Column name for the labels of pie slices
+    :param title: Title of the pie chart
+    :return:  Plotly pie chart
+    """
+    fig = px.pie(
+        df=df,
+        values=values,
+        names=names,
+        title=title
+
+    )
+
 def header():
     """
     :return:  Dash html.Header component containing the HEADER layout
