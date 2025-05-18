@@ -10,6 +10,7 @@ class DataFrame:
         self.df['Order_Date'] = self.get_datetime('Order_Date')
         self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
         self.avg_shipping = self.shipping_time()
+        self.ship_modes = self.shipping_by_mode()
     def get_data(self):
         """
         Read CSV file
@@ -41,10 +42,10 @@ class DataFrame:
         Group data by Ship Mode
         :return: DataFrame with Ship Mode and avg
         """
-        return self.df.groupby('Ship_Mode')['Shipping_Time'].mean().sort_values()
+        modes = self.df.groupby('Ship_Mode')['Shipping_Time'].mean().sort_values()
+        #https: // stackoverflow.com / questions / 10373660 / converting - a - pandas - groupby - multiindex - output -from-series - back - to - dataframe
+        return modes.reset_index()
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
-
-print(data.shipping_by_mode())

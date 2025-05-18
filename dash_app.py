@@ -10,7 +10,7 @@ https://dash.plotly.com/external-resources
 """
 
 from dash import Dash, html
-from components import  header, avg_shipping
+from components import  header, avg_shipping, shipping_modes
 
 """
 scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map.htm
@@ -21,7 +21,8 @@ app = Dash()
 # Requires Dash 2.17.0 or later
 app.layout = html.Div([
     header(),
-    avg_shipping()
+    avg_shipping(),
+    shipping_modes()
 ],id='app')
 
 

@@ -1,5 +1,5 @@
 from data import data
-from dash import html,dcc
+from dash import html,dcc,dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
@@ -33,6 +33,25 @@ def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
 
     return fig
 
+def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
+    """
+    :param df: DataFrame
+    :param x: Column used for x-axis
+    :param y: Column used for y-axis
+    :param title: Title of the chart
+    :param x_label: Label for x-axis
+    :param y_label: Label for y-axis
+    :return: Plotly bar chart figure
+    """
+    fig = px.bar(
+        df,
+        x=x,
+        y=y,
+        title=title,
+        labels={x:x_label,y:y_label}
+    )
+    return fig
+
 def header():
     """
     :return:  Dash html.Header component containing the HEADER layout
@@ -51,16 +70,35 @@ def avg_shipping():
             html.P(f'min: {data.avg_shipping["min"]} days'),
             html.P(f'Median: {data.avg_shipping["50%"]} days'),
             html.P(f'Max: {data.avg_shipping["max"]} days'),
-            html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days')
-
+            html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days'),
+            dcc.Graph(figure=histogram(
+                data.df,
+                'Shipping_Time',
+                'Distribution of Shipping Time',
+                'Days to Ship',
+                'Number of Orders'
+            ))
         ])
     ]),
-        dcc.Graph(figure= histogram(
-            data.df,
-            'Shipping_Time',
-            'Distribution of Shipping Time',
-            'Days to Ship',
-            'Number of Orders'
-            )
-        )
+
 ])
+
+def shipping_modes():
+    return html.Div([
+        dbc.Card([
+            html.H5('Average Shipping Time by Ship Mode'),
+            dcc.Graph(figure= bar_chart(
+                data.ship_modes,
+                'Ship_Mode',
+                'Shipping_Time',
+                'Average Shipping Time by Ship Mode',
+                'Ship Mode',
+                'Avg. Days ti ship'
+                )
+            ),
+            # https://dash.plotly.com/datatable
+            dash_table.DataTable(
+                data.ship_modes.to_dict('records'),
+                [{"name": i, "id": i} for i in data.ship_modes.columns])
+        ])
+    ])
