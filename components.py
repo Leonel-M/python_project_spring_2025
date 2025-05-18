@@ -1,6 +1,37 @@
 from data import data
 from dash import html,dcc
 import dash_bootstrap_components as dbc
+import plotly.express as px
+
+def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
+    """
+    Generates a Plotly histogram for a given column in the DataFrame.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame containing the data.
+    - x_column (str): Name of the column to be used on the x-axis.
+    - title (str, optional): Title of the histogram. Defaults to None.
+    - x_label (str, optional): Label for the x-axis. Defaults to the column name.
+    - y_label (str, optional): Label for the y-axis. Defaults to "Count".
+
+    Returns:
+    - fig (plotly.graph_objs._figure.Figure): A Plotly figure object representing the histogram.
+    """
+    #https://plotly.com/python/histograms/
+    fig = px.histogram(
+        df,
+        x=x_column,
+        title=title,
+        labels={x_column: x_label or x_column}
+    )
+
+    fig.update_layout(
+        xaxis_title=x_label or x_column,
+        yaxis_title=y_label,
+        bargap=0.2
+    )
+
+    return fig
 
 def header():
     """
@@ -12,14 +43,24 @@ def header():
 
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
 def avg_shipping():
-    return dbc.Card([
+    return html.Div([
+        dbc.Card([
         dbc.CardBody([
             html.H5('Shipping Time Overview'),
-            html.P(f'Avg: {data.avg_shipping["mean"]} days'),
+            html.P(f'Avg: {data.avg_shipping["mean"]:.2f} days'),
             html.P(f'min: {data.avg_shipping["min"]} days'),
             html.P(f'Median: {data.avg_shipping["50%"]} days'),
             html.P(f'Max: {data.avg_shipping["max"]} days'),
-            html.P(f'Std Dev: {data.avg_shipping["std"]} days')
+            html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days')
 
         ])
-    ])
+    ]),
+        dcc.Graph(figure= histogram(
+            data.df,
+            'Shipping_Time',
+            'Distribution of Shipping Time',
+            'Days to Ship',
+            'Number of Orders'
+            )
+        )
+])
