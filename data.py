@@ -11,6 +11,7 @@ class DataFrame:
         self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
         self.avg_shipping = self.shipping_time()
         self.ship_modes = self.shipping_by_mode()
+        self.orders_per_segment = self.orders_per_segment()
     def get_data(self):
         """
         Read CSV file
@@ -46,6 +47,12 @@ class DataFrame:
         #https: // stackoverflow.com / questions / 10373660 / converting - a - pandas - groupby - multiindex - output -from-series - back - to - dataframe
         return modes.reset_index()
 
+    def orders_per_segment(self):
+        count = self.df['Segment'].value_counts()
+        return count.reset_index()
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
+
+print(data.orders_per_segment)
