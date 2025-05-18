@@ -8,6 +8,8 @@ class DataFrame:
         self.df = self.get_data()
         self.df['Ship_Date'] = self.get_datetime('Ship_Date')
         self.df['Order_Date'] = self.get_datetime('Order_Date')
+        self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
+
     def get_data(self):
         """
         Read CSV file
@@ -31,11 +33,13 @@ class DataFrame:
         """
         return pd.to_datetime(self.df[column],format='%d/%m/%Y')
 
+    def shipping_time(self):
+        print(self.df['Shipping_Time'].describe())
+
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 
 data = DataFrame(csv_file)
-data.get_info()
-data.df.columns
-print(data.df['Ship_Date'])
-print(data.df['Order_Date'])
+
+data.shipping_time()
