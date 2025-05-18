@@ -61,12 +61,13 @@ def pie(df, values, names,title=None):
     :return:  Plotly pie chart
     """
     fig = px.pie(
-        df=df,
+        df,
         values=values,
         names=names,
         title=title
 
     )
+    return fig
 
 def header():
     """
@@ -75,7 +76,6 @@ def header():
     return html.Header([
                   html.H1('🛒 Superstore Sales'),
     ], id='id_header')
-
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
 def avg_shipping():
     return html.Div([
@@ -116,5 +116,21 @@ def shipping_modes():
             dash_table.DataTable(
                 data.ship_modes.to_dict('records'),
                 [{"name": i, "id": i} for i in data.ship_modes.columns])
+        ])
+    ])
+
+def order_by_segment():
+    return html.Div([
+        dbc.Card([
+            html.H5('Order Distribution by Customer Segment'),
+            dcc.Graph(figure=pie(
+                data.orders_per_segment,
+                'count',
+                'Segment'),
+            ),
+            dash_table.DataTable(
+                data.orders_per_segment.to_dict('records'),
+                [{"name": i, "id": i} for i in data.orders_per_segment.columns])
+
         ])
     ])
