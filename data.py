@@ -36,8 +36,15 @@ class DataFrame:
     def shipping_time(self):
         return self.df['Shipping_Time'].describe()
 
+    def shipping_by_mode(self):
+        """
+        Group data by Ship Mode
+        :return: DataFrame with Ship Mode and avg
+        """
+        return self.df.groupby('Ship_Mode')['Shipping_Time'].mean().sort_values()
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
 
+print(data.shipping_by_mode())
