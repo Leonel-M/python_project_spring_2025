@@ -39,7 +39,5 @@ class DataFrame:
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
-
 data = DataFrame(csv_file)
 
-data.shipping_time()
