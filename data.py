@@ -6,7 +6,8 @@ class DataFrame:
     def __init__(self, in_path):
         self.path = in_path
         self.df = self.get_data()
-
+        self.df['Ship_Date'] = self.get_datetime('Ship_Date')
+        self.df['Order_Date'] = self.get_datetime('Order_Date')
     def get_data(self):
         """
         Read CSV file
@@ -22,8 +23,19 @@ class DataFrame:
         """
         print(self.df.info())
 
+    def get_datetime(self,column):
+        """
+        Change to a readable date format
+        :param column: Name of the column with dates
+        :return: pandas datetime format
+        """
+        return pd.to_datetime(self.df[column],format='%d/%m/%Y')
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 
 data = DataFrame(csv_file)
-print(data.df.head())
+data.get_info()
+data.df.columns
+print(data.df['Ship_Date'])
+print(data.df['Order_Date'])
