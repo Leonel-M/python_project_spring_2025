@@ -1,18 +1,10 @@
-"""
-
-https://github.com/Kaggle/kaggle-api
-"""
-
-import os
-from kaggle.api.kaggle_api_extended import KaggleApi
 import pandas as pd
+import json
+# https://stackoverflow.com/questions/66831999/how-to-import-csv-as-a-pandas-dataframe
+import os
 
-dataset = 'bhanupratapbiswas/superstore-sales'
-data_dir = 'data'
+csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
-api = KaggleApi()
-api.authenticate()
+df = pd.read_csv(csv_file, encoding='ISO-8859-1')  # alternative encoding with special characters
 
-print(f'Downloading {dataset}... ')
-api.dataset_download_files(dataset, path=data_dir,unzip=True)
-print(f'Files saved in {data_dir}')
+print(df.head())
