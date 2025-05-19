@@ -78,6 +78,9 @@ def header():
     ], id='id_header')
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
 def avg_shipping():
+    """
+    :return: Dash html.Div component containing shipping orders
+    """
     return html.Div([
         dbc.Card([
         dbc.CardBody([
@@ -100,6 +103,9 @@ def avg_shipping():
 ])
 
 def shipping_modes():
+    """
+    :return: Dash html.Div component containing Ship Modes
+    """
     return html.Div([
         dbc.Card([
             html.H5('Average Shipping Time by Ship Mode'),
@@ -120,6 +126,9 @@ def shipping_modes():
     ])
 
 def order_by_segment():
+    """
+    :return: Dash html.Div component containing Customer Segments
+    """
     return html.Div([
         dbc.Card([
             html.H5('Order Distribution by Customer Segment'),
@@ -135,7 +144,13 @@ def order_by_segment():
         ])
     ])
 
+def order_by_country():
+    pass
+
 def order_trends():
+    """
+    :return: Dash html.Div component containing monthly and Weekly order patterns
+    """
     return  html.Div([
             html.H5('Monthly and Weekly Order Patterns'),
             dcc.Graph(figure=bar_chart(

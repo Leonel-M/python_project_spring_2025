@@ -19,6 +19,7 @@ class DataFrame:
         self.df['Order_Weekday'] = self.df['Order_Date'].dt.day_name()
         self.orders_per_month = self.orders_per_month()
         self.orders_per_week = self.orders_per_week()
+        self.orders_per_state = self.orders_per_state()
     def get_data(self):
         """
         Read CSV file
@@ -84,6 +85,15 @@ class DataFrame:
         count = df.groupby('Order_Weekday', observed=True).size().reset_index(name='Order_Count')
         return count.rename(columns={'Order_Weekday':'Weekday','count':'Order_Count'})
 
+    def orders_per_state(self):
+        """
+        :return: DataFrame with states and order counts
+        """
+        count = self.df['State'].value_counts().reset_index()
+        return count
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
+
+print(data.orders_per_state())
