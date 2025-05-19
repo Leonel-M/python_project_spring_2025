@@ -69,6 +69,26 @@ def pie(df, values, names,title=None):
     )
     return fig
 
+def scatter_geo(df, locations, color='continent', hover_name, size, projection='natural earth'):
+    """
+    https://plotly.com/python/scatter-plots-on-maps/
+
+    :param df:
+    :param locations:
+    :param color:
+    :param hover_name:
+    :param size:
+    :param projection:
+    :return:
+    """
+
+    fig = px.scatter_geo(df, locations=locations,
+                         color=color,  # which column to use to set the color of markers
+                         hover_name=hover_name,  # column added to hover information
+                         size=size,  # size of markers
+                         projection=projection)
+    return fig
+
 def header():
     """
     :return:  Dash html.Header component containing the HEADER layout
