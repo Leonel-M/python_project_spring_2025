@@ -134,3 +134,6 @@ def order_by_segment():
 
         ])
     ])
+
+def order_trends():
+    pass

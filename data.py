@@ -12,6 +12,8 @@ class DataFrame:
         self.avg_shipping = self.shipping_time()
         self.ship_modes = self.shipping_by_mode()
         self.orders_per_segment = self.orders_per_segment()
+        self.df['Order_Month'] = self.df['Order_Date'].dt.month_name()  # https://stackoverflow.com/questions/74015822/how-to-extract-year-and-month-from-string-in-a-dataframe
+        self.df['Order_Weekday'] = self.df['Order_Date'].dt.day_name()
     def get_data(self):
         """
         Read CSV file
@@ -51,6 +53,10 @@ class DataFrame:
         count = self.df['Segment'].value_counts()
         return count.reset_index()
 
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
+
+print(data.df['Order_Month'])
+print(data.df['Order_Weekday'])
