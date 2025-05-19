@@ -107,7 +107,7 @@ class DataFrame:
         count = self.df['State'].value_counts().reset_index()
         # https: // www.geeksforgeeks.org / python - map - function /
         count['State_Code'] = count['State'].map(us_state_abbrev)
-        return count
+        return count.rename(columns={'count':'Order_Count'})
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 

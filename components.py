@@ -69,24 +69,28 @@ def pie(df, values, names,title=None):
     )
     return fig
 
-def scatter_geo(df, locations, color='continent', hover_name, size, projection='natural earth'):
+def us_state_map(df,locations,color, title,locationmode='USA-states', scope='usa', color_continuous_scale='Blues'):
     """
-    https://plotly.com/python/scatter-plots-on-maps/
-
-    :param df:
-    :param locations:
-    :param color:
-    :param hover_name:
-    :param size:
-    :param projection:
-    :return:
+    Choropleth map of USA by State
+    :type color: object
+    :param df: DataFrame
+    :param locations: Column with abbreviations
+    :param locationmode: Location reference
+    :param color: Column for scale
+    :param scope: Geographic scope
+    :param title: Tile of the map
+    :param color_continuous_scale:
+    :return: Choropleth map figure
     """
-
-    fig = px.scatter_geo(df, locations=locations,
-                         color=color,  # which column to use to set the color of markers
-                         hover_name=hover_name,  # column added to hover information
-                         size=size,  # size of markers
-                         projection=projection)
+    fig = px.choropleth(
+        df,
+        locations= locations,
+        locationmode= locationmode,
+        color= color,
+        scope= scope,
+        title= title,
+        color_continuous_scale=color_continuous_scale
+    )
     return fig
 
 def header():
@@ -165,7 +169,18 @@ def order_by_segment():
     ])
 
 def order_by_location():
-    pass
+    """
+    :return: Dash html.Div component containing Order Volume Locations
+    """
+    return html.Div([
+        html.H5('Order volume by location'),
+        dcc.Graph(figure= us_state_map(
+            data.orders_per_state,
+            'State_Code',
+            'Order_Count',
+            'Order Volume by U.S State',
+        ))
+    ])
 
 def order_trends():
     """
