@@ -136,4 +136,22 @@ def order_by_segment():
     ])
 
 def order_trends():
-    pass
+    return  html.Div([
+            html.H5('Monthly and Weekly Order Patterns'),
+            dcc.Graph(figure=bar_chart(
+                data.orders_per_month,
+                'Month',
+                'Order_Count',
+                'Orders per Month',
+                'Month',
+                'Orders per Month'
+            )),
+            dcc.Graph(figure=bar_chart(
+                data.orders_per_week,
+                'Weekday',
+                'Order_Count',
+                'Orders per Weekday',
+                'Weekday',
+                'Orders per Weekday'
+            ))
+        ])

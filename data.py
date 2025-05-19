@@ -17,7 +17,7 @@ class DataFrame:
         self.orders_per_segment = self.orders_per_segment()
         self.df['Order_Month'] = self.df['Order_Date'].dt.month_name()  # https://stackoverflow.com/questions/74015822/how-to-extract-year-and-month-from-string-in-a-dataframe
         self.df['Order_Weekday'] = self.df['Order_Date'].dt.day_name()
-        self.order_per_month = self.orders_per_month()
+        self.orders_per_month = self.orders_per_month()
         self.orders_per_week = self.orders_per_week()
     def get_data(self):
         """
@@ -70,7 +70,7 @@ class DataFrame:
                                    categories=["January", "February", "March", "April", "May", "June", "July",
                                          "August", "September", "October", "November", "December"],
                                    ordered=True)
-        count = df.groupby('Order_Month', observed=True).size().reset_index(name='Order_count')
+        count = df.groupby('Order_Month', observed=True).size().reset_index(name='Order_Count')
         return count.rename(columns={'Order_Month':'Month'})  # https://docs.kanaries.net/es/topics/Pandas/pandas-rename-column
 
     def orders_per_week(self):
@@ -81,12 +81,9 @@ class DataFrame:
         df['Order_Weekday'] = pd.Categorical(df['Order_Weekday'],  # https://stackoverflow.com/questions/72415001/how-to-sort-pandas-dataframe-by-month-name
                                    categories=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
                                    ordered=True)
-        count = df.groupby('Order_Weekday', observed=True).size().reset_index(name='Order_count')
+        count = df.groupby('Order_Weekday', observed=True).size().reset_index(name='Order_Count')
         return count.rename(columns={'Order_Weekday':'Weekday','count':'Order_Count'})
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
-
-print(data.orders_per_month())
-print(data.orders_per_week)
