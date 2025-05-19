@@ -144,7 +144,7 @@ def order_by_segment():
         ])
     ])
 
-def order_by_country():
+def order_by_location():
     pass
 
 def order_trends():
