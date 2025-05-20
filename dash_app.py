@@ -21,11 +21,26 @@ app = Dash()
 # Requires Dash 2.17.0 or later
 app.layout = html.Div([
     header(),
-    avg_shipping(),
-    shipping_modes(),
-    order_by_segment(),
-    order_by_location(),
-    order_trends()
+
+    html.Hr(),
+
+    # Shipping overview and modes
+    html.Div([
+        html.Div(avg_shipping(), className='card-half'),
+        html.Div(shipping_modes(), className='card-half'),
+    ], className='row'),
+
+    # Segment and Location
+    html.Div([
+        html.Div(order_by_segment(), className='card-half'),
+        html.Div(order_by_location(), className='card-half'),
+    ], className='row'),
+
+    # Trends
+    html.Div([
+        html.Div(order_trends(), className='card-full'),
+    ], className='row'),
+
 ],id='app')
 
 

@@ -3,6 +3,8 @@ from dash import html,dcc,dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
+
+# Graphics
 def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
     """
     Generates a Plotly histogram for a given column in the DataFrame.
@@ -32,7 +34,6 @@ def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
     )
 
     return fig
-
 def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
     """
     :param df: DataFrame
@@ -51,7 +52,6 @@ def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
         labels={x:x_label,y:y_label}
     )
     return fig
-
 def pie(df, values, names,title=None):
     """
     :param df: DataFrame
@@ -68,7 +68,6 @@ def pie(df, values, names,title=None):
 
     )
     return fig
-
 def us_state_map(df,locations,color, title,locationmode='USA-states', scope='usa', color_continuous_scale='Blues'):
     """
     Choropleth map of USA by State
@@ -93,6 +92,7 @@ def us_state_map(df,locations,color, title,locationmode='USA-states', scope='usa
     )
     return fig
 
+# Dash components
 def header():
     """
     :return:  Dash html.Header component containing the HEADER layout
@@ -106,14 +106,16 @@ def avg_shipping():
     :return: Dash html.Div component containing shipping orders
     """
     return html.Div([
-        dbc.Card([
-        dbc.CardBody([
-            html.H5('Shipping Time Overview'),
-            html.P(f'Avg: {data.avg_shipping["mean"]:.2f} days'),
-            html.P(f'min: {data.avg_shipping["min"]} days'),
-            html.P(f'Median: {data.avg_shipping["50%"]} days'),
-            html.P(f'Max: {data.avg_shipping["max"]} days'),
-            html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days'),
+        html.Div([
+            html.H3('Shipping Time Overview', className='section-title'),
+            html.Div([
+                html.P(f'Avg: {data.avg_shipping["mean"]:.2f} days'),
+                html.P(f'min: {data.avg_shipping["min"]} days'),
+                html.P(f'Median: {data.avg_shipping["50%"]} days'),
+                html.P(f'Max: {data.avg_shipping["max"]} days'),
+                html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days')
+            ], className='section-summary'),
+
             dcc.Graph(figure=histogram(
                 data.df,
                 'Shipping_Time',
@@ -121,18 +123,17 @@ def avg_shipping():
                 'Days to Ship',
                 'Number of Orders'
             ))
-        ])
-    ]),
+        ], className='card-content'),
 
-])
+    ], className='component-section')
 
 def shipping_modes():
     """
     :return: Dash html.Div component containing Ship Modes
     """
     return html.Div([
-        dbc.Card([
-            html.H5('Average Shipping Time by Ship Mode'),
+        html.Div([
+            html.H3('Average Shipping Time by Ship Mode', className="section-title"),
             dcc.Graph(figure= bar_chart(
                 data.ship_modes,
                 'Ship_Mode',
@@ -146,16 +147,16 @@ def shipping_modes():
             dash_table.DataTable(
                 data.ship_modes.to_dict('records'),
                 [{"name": i, "id": i} for i in data.ship_modes.columns])
-        ])
-    ])
+        ], className='card-content')
+    ], className='component-section')
 
 def order_by_segment():
     """
     :return: Dash html.Div component containing Customer Segments
     """
     return html.Div([
-        dbc.Card([
-            html.H5('Order Distribution by Customer Segment'),
+        html.Div([
+            html.H3('Order Distribution by Customer Segment', className="section-title"),
             dcc.Graph(figure=pie(
                 data.orders_per_segment,
                 'count',
@@ -165,49 +166,55 @@ def order_by_segment():
                 data.orders_per_segment.to_dict('records'),
                 [{"name": i, "id": i} for i in data.orders_per_segment.columns])
 
-        ])
-    ])
+        ],className="card-content")
+    ], className="component-section")
 
 def order_by_location():
     """
     :return: Dash html.Div component containing Order Volume Locations
     """
     return html.Div([
-        html.H5('Order volume by location'),
-        dcc.Graph(figure= us_state_map(
-            data.orders_per_state,
-            'State_Code',
-            'Order_Count',
-            'Order Volume by U.S State',
-        )),
-        dash_table.DataTable(
-            data.orders_per_city.to_dict('records'),
-            [{"name": i, "id": i} for i in data.orders_per_city.columns],
-        style_table={'height': '400px',
-                     'overflowY': 'auto'}
-        )
-    ])
+        html.Div([
+            html.H3('Order volume by location',className="section-title"),
+            dcc.Graph(figure=us_state_map(
+                data.orders_per_state,
+                'State_Code',
+                'Order_Count',
+                'Order Volume by U.S State',
+            )),
+            dash_table.DataTable(
+                data.orders_per_city.to_dict('records'),
+                [{"name": i, "id": i} for i in data.orders_per_city.columns],
+                style_table={'height': '400px',
+                             'overflowY': 'auto'}
+            )
+
+        ], className="card-content")
+    ], className="component-section")
 
 def order_trends():
     """
     :return: Dash html.Div component containing monthly and Weekly order patterns
     """
     return  html.Div([
-            html.H5('Monthly and Weekly Order Patterns'),
-            dcc.Graph(figure=bar_chart(
-                data.orders_per_month,
-                'Month',
-                'Order_Count',
-                'Orders per Month',
-                'Month',
-                'Orders per Month'
-            )),
-            dcc.Graph(figure=bar_chart(
-                data.orders_per_week,
-                'Weekday',
-                'Order_Count',
-                'Orders per Weekday',
-                'Weekday',
-                'Orders per Weekday'
-            ))
-        ])
+                html.Div([
+                    html.H3('Monthly and Weekly Order Patterns', className="section-title"),
+                    dcc.Graph(figure=bar_chart(
+                        data.orders_per_month,
+                        'Month',
+                        'Order_Count',
+                        'Orders per Month',
+                        'Month',
+                        'Orders per Month'
+                    )),
+                    dcc.Graph(figure=bar_chart(
+                        data.orders_per_week,
+                        'Weekday',
+                        'Order_Count',
+                        'Orders per Weekday',
+                        'Weekday',
+                        'Orders per Weekday'
+                    ))
+                ], className="card-content")
+
+        ], className='component-section')
