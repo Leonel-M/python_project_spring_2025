@@ -5,9 +5,16 @@
   font-size: 14px;
 }
 
+.row{
+  display: flex;
+  flex-wrap: wrap;  
+  justify-content:center;
+  padding: auto;
+}
+
 #app{
-    background: rgb(240, 242, 248);
-    font-family: Poppins, sans-serif;
+  background: rgb(240, 242, 248);
+  font-family: Poppins, sans-serif;
 }
 
 header{
@@ -15,37 +22,45 @@ header{
 }
 
 header h1{
-    color: aliceblue;
-    font-size:x-large;
-    padding: .5em 1em;
+  color: aliceblue;
+  font-size:x-large;
+  padding: .5em 1em;
 }
 
 .component-section{
-    padding-left: 1em;
-    padding-top: 1em;
+  padding-left: 1em;
+  padding-top: 1em;
+}
+
+.card-half{
+  width: 40%;
+}
+
+.card-full{
+  width: 80%;
 }
 
 .card-content{
-    background-color: rgb(255, 255, 255);
-    color: rgb(36, 44, 58);
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px -2px, rgba(0, 0, 0, 0.05) 0px 2px 2px -1px;
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 10px;
-    overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  color: rgb(36, 44, 58);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px -2px, rgba(0, 0, 0, 0.05) 0px 2px 2px -1px;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 10px;
+  overflow: hidden; 
 }
 
 .section-title{
-    color: white;
-    font-size: 1.5em;
-    padding: .71em 1em;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+  color: white;
+  font-size: 1.5em;
+  padding: .71em 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 #avg_shipping .section-title{
-  background-color: rgb(244, 161, 0);;
+  background-color: rgb(244, 161, 0);
 }
 
 #shipping_modes .section-title{
@@ -54,7 +69,7 @@ header h1{
 }
 
 #order_by_segment .section-title{
-  background-color: rgb(0, 172, 105);
+  background-color: #00ac69;
 }
 
 #order_by_location .section-title{
@@ -73,6 +88,51 @@ header h1{
     padding: .3em 0;
 }
 
-th span, td .dash-cell-value{
-    text-align: left; important
+/*--------------- Table style ---------------*/
+
+table tr{
+  font-family: Poppins, sans-serif;
+}
+
+table th{
+  color: white;
+}
+
+#avg_shipping table th{
+  background-color: rgb(244, 161, 0);
+}
+
+#shipping_modes table th{
+  background-color: rgb(255, 65, 58);
+
+}
+
+#order_by_segment table th{
+  background-color: rgb(0, 172, 105);
+}
+
+#order_by_location table th{
+  background-color: rgb(51, 102, 255);
+}
+
+#order_trends table th{
+  background-color: rgb(153, 51, 255);
+}
+
+
+@media (max-width: 1000px) {
+  
+  .card-half{
+    width: 80%;
+  }
+}
+
+@media (max-width: 650px) {
+  
+  .card-half, .card-full{
+    width: 100%;
+  }
+  .component-section{
+  padding: .5em;
+}
 }

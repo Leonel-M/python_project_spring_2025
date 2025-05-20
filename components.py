@@ -5,7 +5,7 @@ import plotly.express as px
 
 
 # Graphics
-def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
+def histogram(df, x_column,x_label=None, y_label='Count', color=None, title=None):
     """
     Generates a Plotly histogram for a given column in the DataFrame.
 
@@ -24,7 +24,8 @@ def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
         df,
         x=x_column,
         title=title,
-        labels={x_column: x_label or x_column}
+        labels={x_column: x_label or x_column},
+        color_discrete_sequence=[color]
     )
 
     fig.update_layout(
@@ -34,7 +35,7 @@ def histogram(df, x_column, title=None,x_label=None, y_label='Count'):
     )
 
     return fig
-def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
+def bar_chart(df, x, y,x_label=None, y_label=None, color= None,title=None):
     """
     :param df: DataFrame
     :param x: Column used for x-axis
@@ -49,10 +50,11 @@ def bar_chart(df, x, y,title=None,x_label=None, y_label=None):
         x=x,
         y=y,
         title=title,
-        labels={x:x_label,y:y_label}
+        labels={x:x_label,y:y_label},
+        color_discrete_sequence=[color]
     )
     return fig
-def pie(df, values, names,title=None):
+def pie(df, values, names,title=None, color_sequence=None):
     """
     :param df: DataFrame
     :param values: Column name for the size of pie slices
@@ -60,15 +62,17 @@ def pie(df, values, names,title=None):
     :param title: Title of the pie chart
     :return:  Plotly pie chart
     """
+    color_sequence = color_sequence[:len(df)] if color_sequence else None
     fig = px.pie(
         df,
         values=values,
         names=names,
-        title=title
+        title=title,
+        color_discrete_sequence=color_sequence
 
     )
     return fig
-def us_state_map(df,locations,color, title,locationmode='USA-states', scope='usa', color_continuous_scale='Blues'):
+def us_state_map(df,locations,color, title=None,locationmode='USA-states', scope='usa', color_continuous_scale='Blues'):
     """
     Choropleth map of USA by State
     :type color: object
@@ -119,9 +123,10 @@ def avg_shipping():
             dcc.Graph(figure=histogram(
                 data.df,
                 'Shipping_Time',
-                'Distribution of Shipping Time',
                 'Days to Ship',
-                'Number of Orders'
+                'Number of Orders',
+                'rgb(244, 161, 0)',
+                'Distribution of Shipping Time'
             ))
         ], className='card-content'),
 
@@ -138,15 +143,18 @@ def shipping_modes():
                 data.ship_modes,
                 'Ship_Mode',
                 'Shipping_Time',
-                'Average Shipping Time by Ship Mode',
                 'Ship Mode',
-                'Avg. Days ti ship'
+                'Avg. Days per ship',
+                'rgb(255, 65, 58)'
                 )
             ),
             # https://dash.plotly.com/datatable
             dash_table.DataTable(
                 data.ship_modes.to_dict('records'),
-                [{"name": i, "id": i} for i in data.ship_modes.columns])
+                [{"name": i, "id": i} for i in data.ship_modes.columns],
+            style_cell={'textAlign':'left'}
+            )
+
         ], className='card-content')
     ], className='component-section')
 
@@ -160,11 +168,15 @@ def order_by_segment():
             dcc.Graph(figure=pie(
                 data.orders_per_segment,
                 'count',
-                'Segment'),
+                'Segment',
+                color_sequence=["#28f6a7", "#00ac69", "#275e49", "#2d2d2d"]),
+
             ),
             dash_table.DataTable(
                 data.orders_per_segment.to_dict('records'),
-                [{"name": i, "id": i} for i in data.orders_per_segment.columns])
+                [{"name": i, "id": i} for i in data.orders_per_segment.columns],
+            style_cell={'textAlign':'left'}
+            )
 
         ],className="card-content")
     ], className="component-section")
@@ -180,14 +192,14 @@ def order_by_location():
                 data.orders_per_state,
                 'State_Code',
                 'Order_Count',
-                'Order Volume by U.S State',
             )),
             dash_table.DataTable(
                 data.orders_per_city.to_dict('records'),
                 [{"name": i, "id": i} for i in data.orders_per_city.columns],
-                style_table={'height': '400px',
-                             'overflowY': 'auto'}
-            )
+                style_table={'height': '200px',
+                             'overflowY': 'auto'},
+                style_cell={'textAlign': 'left'}
+        )
 
         ], className="card-content")
     ], className="component-section")
@@ -203,16 +215,18 @@ def order_trends():
                         data.orders_per_month,
                         'Month',
                         'Order_Count',
-                        'Orders per Month',
                         'Month',
+                        'Orders per Month',
+                        'rgb(153, 51, 255)',
                         'Orders per Month'
                     )),
                     dcc.Graph(figure=bar_chart(
                         data.orders_per_week,
                         'Weekday',
                         'Order_Count',
-                        'Orders per Weekday',
                         'Weekday',
+                        'Orders per Weekday',
+                        'rgb(153, 51, 255)',
                         'Orders per Weekday'
                     ))
                 ], className="card-content")
