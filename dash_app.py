@@ -26,19 +26,19 @@ app.layout = html.Div([
 
     # Shipping overview and modes
     html.Div([
-        html.Div(avg_shipping(), className='card-half'),
-        html.Div(shipping_modes(), className='card-half'),
+        html.Div(avg_shipping(), className='card-half', id='avg_shipping'),
+        html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
     ], className='row'),
 
     # Segment and Location
     html.Div([
-        html.Div(order_by_segment(), className='card-half'),
-        html.Div(order_by_location(), className='card-half'),
+        html.Div(order_by_segment(), className='card-half', id='order_by_segment'),
+        html.Div(order_by_location(), className='card-half', id='order_by_location'),
     ], className='row'),
 
     # Trends
     html.Div([
-        html.Div(order_trends(), className='card-full'),
+        html.Div(order_trends(), className='card-full', id='Order_trends'),
     ], className='row'),
 
 ],id='app')
