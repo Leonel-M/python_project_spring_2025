@@ -179,7 +179,13 @@ def order_by_location():
             'State_Code',
             'Order_Count',
             'Order Volume by U.S State',
-        ))
+        )),
+        dash_table.DataTable(
+            data.orders_per_city.to_dict('records'),
+            [{"name": i, "id": i} for i in data.orders_per_city.columns],
+        style_table={'height': '400px',
+                     'overflowY': 'auto'}
+        )
     ])
 
 def order_trends():

@@ -35,6 +35,7 @@ class DataFrame:
         self.orders_per_month = self.orders_per_month()
         self.orders_per_week = self.orders_per_week()
         self.orders_per_state = self.orders_per_state()
+        self.orders_per_city = self.orders_per_city()
     def get_data(self):
         """
         Read CSV file
@@ -109,8 +110,12 @@ class DataFrame:
         count['State_Code'] = count['State'].map(us_state_abbrev)
         return count.rename(columns={'count':'Order_Count'})
 
+    def orders_per_city(self):
+        count = self.df['City'].value_counts().reset_index()
+        return count.rename(columns={'count':'Order_Count'})
+
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
 
-print(data.orders_per_state)
+#print(data.order_per_city)
