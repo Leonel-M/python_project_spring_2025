@@ -38,7 +38,7 @@ app.layout = html.Div([
 
     # Trends
     html.Div([
-        html.Div(order_trends(), className='card-full', id='Order_trends'),
+        html.Div(order_trends(), className='card-full', id='order_trends'),
     ], className='row'),
 
 ],id='app')

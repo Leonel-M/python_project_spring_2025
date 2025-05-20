@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#app{
+    background: rgb(240, 242, 248);
+    font-family: Poppins, sans-serif;
+}
+
+header{
+    background: rgb(51, 102, 255);
+}
+
+header h1{
+    color: aliceblue;
+    font-size:x-large;
+    padding: .5em 1em;
+}
+
+.component-section{
+    padding-left: 1em;
+    padding-top: 1em;
+}
+
+.card-content{
+    background-color: rgb(255, 255, 255);
+    color: rgb(36, 44, 58);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 6px -2px, rgba(0, 0, 0, 0.05) 0px 2px 2px -1px;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.section-title{
+    color: white;
+    font-size: 1.5em;
+    padding: .71em 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#avg_shipping .section-title{
+  background-color: rgb(244, 161, 0);;
+}
+
+#shipping_modes .section-title{
+  background-color: rgb(255, 65, 58);
+
+}
+
+#order_by_segment .section-title{
+  background-color: rgb(0, 172, 105);
+}
+
+#order_by_location .section-title{
+  background-color: rgb(51, 102, 255);
+}
+
+#order_trends .section-title{
+  background-color: rgb(153, 51, 255);
+}
+
+.section-summary{
+    padding: .71em 1em;
+}
+
+.section-summary p{
+    padding: .3em 0;
+}
+
+th span, td .dash-cell-value{
+    text-align: left; important
+}
