@@ -95,6 +95,25 @@ def us_state_map(df,locations,color, title=None,locationmode='USA-states', scope
     )
     return fig
 
+# Filter bar
+"""
+    Callbacks are Dash functions to make dynamic changes to the application.
+    https://dash.plotly.com/sharing-data-between-callbacks
+"""
+def filter_bar():
+    """
+    :return: Dash html.Div component containing filters
+    """
+    return html.Div([
+        html.Div([
+            dcc.Dropdown(id='filter-ship',),
+            dcc.Dropdown(id='filter-segment',),
+            dcc.Dropdown(id='filter-state',),
+            dcc.Dropdown(id='filter-month',),
+            dcc.Dropdown(id='filter-week',),
+        ], className='card-content')
+    ], className='component-section')
+
 # Dash components
 def header():
     """
@@ -128,7 +147,6 @@ def avg_shipping():
                 'Distribution of Shipping Time'
             ))
         ], className='card-content'),
-
     ], className='component-section')
 
 def shipping_modes():
