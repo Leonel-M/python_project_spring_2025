@@ -103,15 +103,39 @@ def us_state_map(df,locations,color, title=None,locationmode='USA-states', scope
 def filter_bar():
     """
     :return: Dash html.Div component containing filters
+
+    Unique  values in each Dropdown
+    https://community.plotly.com/t/how-to-populate-a-dropdown-from-unique-values-in-a-pandas-data-frame/5543/2
     """
     return html.Div([
         html.Div([
-            dcc.Dropdown(id='filter-ship',),
-            dcc.Dropdown(id='filter-segment',),
-            dcc.Dropdown(id='filter-state',),
-            dcc.Dropdown(id='filter-month',),
-            dcc.Dropdown(id='filter-week',),
-        ], className='card-content')
+            dcc.Dropdown(
+                id='filter-ship',
+                options=[{'label': i, 'value': i} for i in data.ship_modes['Ship_Mode'].unique()],
+                multi=True, placeholder='Filter by Ship Mode...'
+                ),
+            dcc.Dropdown(
+                id='filter-segment',
+                options=[{'label': i, 'value': i} for i in data.orders_per_segment['Segment'].unique()],
+                multi=True, placeholder='Filter by Customer Segment...'
+            ),
+            dcc.Dropdown(
+                id='filter-state',
+                options=[{'label': i, 'value': i} for i in data.orders_per_state['State'].unique()],
+                multi=True, placeholder='Filter by State...'
+            ),
+            dcc.Dropdown(
+                id='filter-month',
+                options=[{'label': i, 'value': i} for i in data.orders_per_month['Month'].unique()],
+                multi=True, placeholder='Filter by Month...'
+            ),
+            dcc.Dropdown(
+                id='filter-week',
+                options=[{'label': i, 'value': i} for i in data.orders_per_week['Weekday'].unique()],
+                multi=True, placeholder='Filter by Weekday...'
+            )
+
+        ], className='filter-content')
     ], className='component-section')
 
 # Dash components

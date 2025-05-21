@@ -118,4 +118,4 @@ csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
 
-#print(data.order_per_city)
+#print(data.orders_per_week['Weekday'])
