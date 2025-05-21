@@ -20,6 +20,33 @@ us_state_abbrev = {
     'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
 
+def filter_df(df, ship=None, segment=None, state=None, month=None, week=None):
+    """
+    Creates a dataframe of the data with multiple filters so as not to modify the original one
+    :param df: Original DataFrame
+    :param ship:  Ship list
+    :param segment: Segment list
+    :param state: State list
+    :param month: Month list
+    :param week: Week list
+    :return: DataFrame filtered
+    """
+    filtered_df = df.copy()
+
+    # isin() in Pandas is used to check if the values of a column or DataFrame are present in a specified list, series or DataFrame.
+    if ship:
+        filtered_df = filtered_df.ship_modes['Ship_Mode'].isin(ship)
+    if segment:
+        filtered_df = filtered_df.orders_per_segment['Segment'].isin(ship)
+    if state:
+        filtered_df = filtered_df.orders_per_state['State'].isin(ship)
+    if month:
+        filtered_df = filtered_df.orders_per_month['Month'].isin(ship)
+    if week:
+        filtered_df = filtered_df.orders_per_week['Weekday'].isin(ship)
+
+    return filtered_df
+
 class DataFrame:
     def __init__(self, in_path):
         self.path = in_path
@@ -117,5 +144,7 @@ class DataFrame:
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = DataFrame(csv_file)
+
+
 
 #print(data.orders_per_week['Weekday'])

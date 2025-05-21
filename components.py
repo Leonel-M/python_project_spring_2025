@@ -112,27 +112,32 @@ def filter_bar():
             dcc.Dropdown(
                 id='filter-ship',
                 options=[{'label': i, 'value': i} for i in data.ship_modes['Ship_Mode'].unique()],
-                multi=True, placeholder='Filter by Ship Mode...'
+                multi=True, placeholder='Filter by Ship Mode...',
+                value= None
                 ),
             dcc.Dropdown(
                 id='filter-segment',
                 options=[{'label': i, 'value': i} for i in data.orders_per_segment['Segment'].unique()],
-                multi=True, placeholder='Filter by Customer Segment...'
+                multi=True, placeholder='Filter by Customer Segment...',
+                value= None
             ),
             dcc.Dropdown(
                 id='filter-state',
                 options=[{'label': i, 'value': i} for i in data.orders_per_state['State'].unique()],
-                multi=True, placeholder='Filter by State...'
+                multi=True, placeholder='Filter by State...',
+                value= None
             ),
             dcc.Dropdown(
                 id='filter-month',
                 options=[{'label': i, 'value': i} for i in data.orders_per_month['Month'].unique()],
-                multi=True, placeholder='Filter by Month...'
+                multi=True, placeholder='Filter by Month...',
+                value= None
             ),
             dcc.Dropdown(
                 id='filter-week',
                 options=[{'label': i, 'value': i} for i in data.orders_per_week['Weekday'].unique()],
-                multi=True, placeholder='Filter by Weekday...'
+                multi=True, placeholder='Filter by Weekday...',
+                value= None
             )
 
         ], className='filter-content')
