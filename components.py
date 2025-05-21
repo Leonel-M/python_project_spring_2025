@@ -3,7 +3,6 @@ from dash import html,dcc,dash_table
 import dash_bootstrap_components as dbc
 import plotly.express as px
 
-
 # Graphics
 def histogram(df, x_column,x_label=None, y_label='Count', color=None, title=None):
     """
