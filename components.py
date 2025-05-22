@@ -105,7 +105,7 @@ def header():
                   html.H1('🛒 Superstore Sales'),
     ], id='id_header')
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
-def avg_shipping():
+def avg_shipping(obj):
     """
     :return: Dash html.Div component containing shipping orders
     """
@@ -113,11 +113,11 @@ def avg_shipping():
         html.Div([
             html.H3('Shipping Time Overview', className='section-title'),
             html.Div([
-                html.P(f'Avg: {data.avg_shipping_info["mean"]:.2f} days'),
-                html.P(f'min: {data.avg_shipping_info["min"]} days'),
-                html.P(f'Median: {data.avg_shipping_info["50%"]} days'),
-                html.P(f'Max: {data.avg_shipping_info["max"]} days'),
-                html.P(f'Std Dev: {data.avg_shipping_info["std"]:.2f} days')
+                html.P(f'Avg: {obj.avg_shipping_info["mean"]:.2f} days'),
+                html.P(f'min: {obj.avg_shipping_info["min"]} days'),
+                html.P(f'Median: {obj.avg_shipping_info["50%"]} days'),
+                html.P(f'Max: {obj.avg_shipping_info["max"]} days'),
+                html.P(f'Std Dev: {obj.avg_shipping_info["std"]:.2f} days')
             ], className='section-summary'),
 
             dcc.Graph(figure=histogram(
@@ -295,7 +295,7 @@ def serve_layout():
 
         # Shipping overview and modes
         html.Div([
-            html.Div(avg_shipping(), className='card-half', id='avg_shipping'),
+            html.Div( className='card-half', id='avg_shipping'),
             html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
         ], className='row'),
 

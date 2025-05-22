@@ -8,7 +8,7 @@ that are included in this folder. By default, the URL to request the assets is /
 but you can customize this with the assets_url_path argument to dash.Dash.
 https://dash.plotly.com/external-resources
 """
-
+from data import data_copy, data
 from dash import Dash, callback, Input, Output, html
 from components import  header, avg_shipping, shipping_modes, order_by_segment, order_by_location, order_trends
 import components
@@ -26,17 +26,18 @@ app.layout = html.Div([
 
 # Callback function
 @callback(
-    Output('output-id', 'children'),
-        [Input('filter-ship', 'value'),  # ID from element, variable
+        Output('avg_shipping', 'children'),
+        Input('filter-ship', 'value'),  # ID from element, variable
         Input('filter-segment', 'value'),
         Input('filter-state', 'value'),
         Input('filter-month', 'value'),
         Input('filter-week', 'value')
-        ]
+
     #State('input-id', 'value')
 )
 def update_output(ship_value, segment_value, state_value, month_value, week_value):
-    return f' Ship: {ship_value}, Segment: {segment_value}, State: {state_value}, Month: {month_value}, Week: {week_value}'
+    filtered = data_copy(data,ship_value, segment_value, state_value, month_value, week_value)
+    return components.avg_shipping(filtered)
 
 
 

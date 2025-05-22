@@ -150,4 +150,4 @@ csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 data = Data(csv_file)
 
 filtered = data_copy(data,['First Class'],None,None,None,None)
-print(filtered.df.info())
+#print(filtered.df.info())
