@@ -233,12 +233,65 @@ def order_trends():
 
         ], className='component-section')
 
+# Filter bar
+"""
+    Callbacks are Dash functions to make dynamic changes to the application.
+    https://dash.plotly.com/sharing-data-between-callbacks
+"""
+def filter_bar():
+    """
+    :return: Dash html.Div component containing filters
+
+    Unique  values in each Dropdown
+    https://community.plotly.com/t/how-to-populate-a-dropdown-from-unique-values-in-a-pandas-data-frame/5543/2
+    """
+    return html.Div([
+        html.Div([
+            dcc.Dropdown(
+                id='filter-ship',
+                options=[{'label': i, 'value': i} for i in data.ship_modes['Ship_Mode'].unique()],
+                multi=True, placeholder='Filter by Ship Mode...',
+                value= None
+                ),
+            dcc.Dropdown(
+                id='filter-segment',
+                options=[{'label': i, 'value': i} for i in data.orders_per_segment['Segment'].unique()],
+                multi=True, placeholder='Filter by Customer Segment...',
+                value= None
+            ),
+            dcc.Dropdown(
+                id='filter-state',
+                options=[{'label': i, 'value': i} for i in data.orders_per_state['State'].unique()],
+                multi=True, placeholder='Filter by State...',
+                value= None
+            ),
+            dcc.Dropdown(
+                id='filter-month',
+                options=[{'label': i, 'value': i} for i in data.orders_per_month['Month'].unique()],
+                multi=True, placeholder='Filter by Month...',
+                value= None
+            ),
+            dcc.Dropdown(
+                id='filter-week',
+                options=[{'label': i, 'value': i} for i in data.orders_per_week['Weekday'].unique()],
+                multi=True, placeholder='Filter by Weekday...',
+                value= None
+            )
+
+        ], className='filter-content')
+    ], className='component-section')
+
 # Principal Layout
 def serve_layout():
     return html.Div([
     header(),
 
     html.Hr(),
+
+    # Filter bar
+    html.Div([
+        html.Div([filter_bar()], className='card-full', id='filter-bar'),
+    ], className='row'),
 
     # Shipping overview and modes
     html.Div([
