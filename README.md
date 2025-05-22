@@ -22,7 +22,8 @@ python_project_spring_2025/
 
 ### 1. Clone the repository
 
-git clone https://github.com/Leonel-M/python_project_spring_2025.git
+git clone https://github.com/Leonel-M/python_project_spring_2025.git 
+
 cd python_project_spring_2025
 
 ### 2. Create a virtual environment (optional but recommended)
