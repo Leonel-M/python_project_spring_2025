@@ -9,7 +9,7 @@ but you can customize this with the assets_url_path argument to dash.Dash.
 https://dash.plotly.com/external-resources
 """
 
-from dash import Dash, html
+from dash import Dash, callback, Input, Output, html
 from components import  header, avg_shipping, shipping_modes, order_by_segment, order_by_location, order_trends
 import components
 """
@@ -19,7 +19,20 @@ scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map
 app = Dash()
 
 # Requires Dash 2.17.0 or later
-app.layout = components.serve_layout
+app.layout = html.Div([
+        components.serve_layout(),
+        html.Div(id='output-id')
+    ])
+
+# Callback function
+@callback(
+    Output('output-id', 'children'),
+    Input('filter-ship', 'value')
+    #State('input-id', 'value')
+)
+def update_output(value):
+    return f' Selected: {value}'
+
 
 
 if __name__ == '__main__':

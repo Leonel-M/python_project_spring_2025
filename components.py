@@ -284,30 +284,32 @@ def filter_bar():
 # Principal Layout
 def serve_layout():
     return html.Div([
-    header(),
+        header(),
 
-    html.Hr(),
+        html.Hr(),
 
-    # Filter bar
-    html.Div([
-        html.Div([filter_bar()], className='card-full', id='filter-bar'),
-    ], className='row'),
+        # Filter bar
+        html.Div([
+            html.Div([filter_bar()], className='card-full', id='filter-bar'),
+        ], className='row'),
 
-    # Shipping overview and modes
-    html.Div([
-        html.Div(avg_shipping(), className='card-half', id='avg_shipping'),
-        html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
-    ], className='row'),
+        # Shipping overview and modes
+        html.Div([
+            html.Div(avg_shipping(), className='card-half', id='avg_shipping'),
+            html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
+        ], className='row'),
 
-    # Segment and Location
-    html.Div([
-        html.Div(order_by_segment(), className='card-half', id='order_by_segment'),
-        html.Div(order_by_location(), className='card-half', id='order_by_location'),
-    ], className='row'),
+        # Segment and Location
+        html.Div([
+            html.Div(order_by_segment(), className='card-half', id='order_by_segment'),
+            html.Div(order_by_location(), className='card-half', id='order_by_location'),
+        ], className='row'),
 
-    # Trends
-    html.Div([
-        html.Div(order_trends(), className='card-full', id='order_trends'),
-    ], className='row'),
+        # Trends
+        html.Div([
+            html.Div(order_trends(), className='card-full', id='order_trends'),
+        ], className='row'),
 
-],id='app')
+    ],id='app')
+
+#print(serve_layout())
