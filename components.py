@@ -102,7 +102,8 @@ def header():
     :return:  Dash html.Header component containing the HEADER layout
     """
     return html.Header([
-                  html.H1('🛒 Superstore Sales'),
+        html.Img(src='assets/icon.png', id='icon'),
+        html.H1('Superstore Sales'),
     ], id='id_header')
 # https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
 def avg_shipping(obj):
@@ -248,31 +249,31 @@ def filter_bar():
     return html.Div([
         html.Div([
             dcc.Dropdown(
-                id='filter-ship',
+                id='filter-ship', className='dropdown',
                 options=[{'label': i, 'value': i} for i in data.ship_modes_info['Ship_Mode'].unique()],
                 multi=True, placeholder='Filter by Ship Mode...',
                 value= None
                 ),
             dcc.Dropdown(
-                id='filter-segment',
+                id='filter-segment', className='dropdown',
                 options=[{'label': i, 'value': i} for i in data.orders_per_segment_info['Segment'].unique()],
                 multi=True, placeholder='Filter by Customer Segment...',
                 value= None
             ),
             dcc.Dropdown(
-                id='filter-state',
+                id='filter-state', className='dropdown',
                 options=[{'label': i, 'value': i} for i in data.orders_per_state_info['State'].unique()],
                 multi=True, placeholder='Filter by State...',
                 value= None
             ),
             dcc.Dropdown(
-                id='filter-month',
+                id='filter-month', className='dropdown',
                 options=[{'label': i, 'value': i} for i in data.orders_per_month_info['Month'].unique()],
                 multi=True, placeholder='Filter by Month...',
                 value= None
             ),
             dcc.Dropdown(
-                id='filter-week',
+                id='filter-week', className='dropdown',
                 options=[{'label': i, 'value': i} for i in data.orders_per_week_info['Weekday'].unique()],
                 multi=True, placeholder='Filter by Weekday...',
                 value= None

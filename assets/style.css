@@ -5,7 +5,7 @@
   font-size: 14px;
 }
 
-.row{
+.row, .filter-content{
   display: flex;
   flex-wrap: wrap;  
   justify-content:center;
@@ -19,12 +19,19 @@
 
 header{
     background: rgb(51, 102, 255);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1em;
+}
+
+header #icon{
+  max-width: 3em;
 }
 
 header h1{
   color: aliceblue;
   font-size:x-large;
-  padding: .5em 1em;
+  padding: .5em;
 }
 
 .component-section{
@@ -119,6 +126,23 @@ table th{
   background-color: rgb(153, 51, 255);
 }
 
+
+/*--------------- Table style ---------------*/
+
+.dash-dropdown{
+  width: 30%;
+  padding: .25em .5em;
+}
+
+.dropdown{
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+
+/*--------------- Mediaqueries ---------------*/
 
 @media (max-width: 1000px) {
   
