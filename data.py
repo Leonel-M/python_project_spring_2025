@@ -20,8 +20,14 @@ us_state_abbrev = {
     'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
 
-class DataFrame:
-    def __init__(self, in_path):
+def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week_value):
+    new_obj = Data()
+    new_obj.df = old_obj.df.copy()
+    return new_obj
+
+
+class Data:
+    def __init__(self, in_path=None):
         self.path = in_path
         self.df = self.get_data()
         self.df['Ship_Date'] = self.get_datetime('Ship_Date')
@@ -116,6 +122,7 @@ class DataFrame:
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
-data = DataFrame(csv_file)
+data = Data(csv_file)
 
-#print(data.order_per_city)
+filtered = data_copy(data,None,None,None,None,None)
+print(filtered.df.info())
