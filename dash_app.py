@@ -27,11 +27,16 @@ app.layout = html.Div([
 # Callback function
 @callback(
     Output('output-id', 'children'),
-    Input('filter-ship', 'value')
+        [Input('filter-ship', 'value'),  # ID from element, variable
+        Input('filter-segment', 'value'),
+        Input('filter-state', 'value'),
+        Input('filter-month', 'value'),
+        Input('filter-week', 'value')
+        ]
     #State('input-id', 'value')
 )
-def update_output(value):
-    return f' Selected: {value}'
+def update_output(ship_value, segment_value, state_value, month_value, week_value):
+    return f' Ship: {ship_value}, Segment: {segment_value}, State: {state_value}, Month: {month_value}, Week: {week_value}'
 
 
 
