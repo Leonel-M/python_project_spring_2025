@@ -181,7 +181,7 @@ def order_by_segment(obj):
         ],className="card-content")
     ], className="component-section")
 
-def order_by_location():
+def order_by_location(obj):
     """
     :return: Dash html.Div component containing Order Volume Locations
     """
@@ -189,13 +189,13 @@ def order_by_location():
         html.Div([
             html.H3('Order volume by location',className="section-title"),
             dcc.Graph(figure=us_state_map(
-                data.orders_per_state_info,
+                obj.orders_per_state_info,
                 'State_Code',
                 'Order_Count',
             )),
             dash_table.DataTable(
-                data.orders_per_city_info.to_dict('records'),
-                [{"name": i, "id": i} for i in data.orders_per_city_info.columns],
+                obj.orders_per_city_info.to_dict('records'),
+                [{"name": i, "id": i} for i in obj.orders_per_city_info.columns],
                 style_table={'height': '200px',
                              'overflowY': 'auto'},
                 style_cell={'textAlign': 'left'}
@@ -302,7 +302,7 @@ def serve_layout():
         # Segment and Location
         html.Div([
             html.Div(className='card-half', id='order_by_segment'),
-            html.Div(order_by_location(), className='card-half', id='order_by_location'),
+            html.Div(className='card-half', id='order_by_location'),
         ], className='row'),
 
         # Trends
