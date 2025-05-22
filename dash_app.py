@@ -11,7 +11,7 @@ https://dash.plotly.com/external-resources
 
 from dash import Dash, html
 from components import  header, avg_shipping, shipping_modes, order_by_segment, order_by_location, order_trends
-
+import components
 """
 scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map.htm
 """
@@ -19,29 +19,7 @@ scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map
 app = Dash()
 
 # Requires Dash 2.17.0 or later
-app.layout = html.Div([
-    header(),
-
-    html.Hr(),
-
-    # Shipping overview and modes
-    html.Div([
-        html.Div(avg_shipping(), className='card-half', id='avg_shipping'),
-        html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
-    ], className='row'),
-
-    # Segment and Location
-    html.Div([
-        html.Div(order_by_segment(), className='card-half', id='order_by_segment'),
-        html.Div(order_by_location(), className='card-half', id='order_by_location'),
-    ], className='row'),
-
-    # Trends
-    html.Div([
-        html.Div(order_trends(), className='card-full', id='order_trends'),
-    ], className='row'),
-
-],id='app')
+app.layout = components.serve_layout
 
 
 if __name__ == '__main__':
