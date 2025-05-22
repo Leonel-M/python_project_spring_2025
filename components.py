@@ -204,7 +204,7 @@ def order_by_location(obj):
         ], className="card-content")
     ], className="component-section")
 
-def order_trends():
+def order_trends(obj):
     """
     :return: Dash html.Div component containing monthly and Weekly order patterns
     """
@@ -212,7 +212,7 @@ def order_trends():
                 html.Div([
                     html.H3('Monthly and Weekly Order Patterns', className="section-title"),
                     dcc.Graph(figure=bar_chart(
-                        data.orders_per_month_info,
+                        obj.orders_per_month_info,
                         'Month',
                         'Order_Count',
                         'Month',
@@ -221,7 +221,7 @@ def order_trends():
                         'Orders per Month'
                     )),
                     dcc.Graph(figure=bar_chart(
-                        data.orders_per_week_info,
+                        obj.orders_per_week_info,
                         'Weekday',
                         'Order_Count',
                         'Weekday',
@@ -307,7 +307,7 @@ def serve_layout():
 
         # Trends
         html.Div([
-            html.Div(order_trends(), className='card-full', id='order_trends'),
+            html.Div( className='card-full', id='order_trends'),
         ], className='row'),
 
     ],id='app')
