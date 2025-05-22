@@ -27,15 +27,15 @@ def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week
 
     # isin() in Pandas is used to check if the values of a column or DataFrame are present in a specified list, series or DataFrame.
     # return True or False
-    if ship_value:
+    if ship_value is not None and len(ship_value) > 0:
         df = df[df['Ship_Mode'].isin(ship_value)]
-    if segment_value:
+    if segment_value is not None and len(segment_value) > 0:
         df = df[df['Segment'].isin(segment_value)]
-    if state_value:
+    if state_value is not None and len(state_value) > 0:
         df = df[df['State'].isin(state_value)]
-    if month_value:
+    if month_value is not None and len(month_value) > 0:
         df = df[df['Order_Month'].isin(month_value)]
-    if week_value:
+    if week_value is not None and len(week_value) > 0:
         df = df[df['Order_Weekday'].isin(week_value)]
 
     # Update the new object
