@@ -28,6 +28,7 @@ app.layout = html.Div([
 @callback(
     Output('avg_shipping', 'children'),
     Output('shipping_modes', 'children'),
+    Output('order_by_segment', 'children'),
     Input('filter-ship', 'value'),  # ID from element, variable
     Input('filter-segment', 'value'),
     Input('filter-state', 'value'),
@@ -38,7 +39,7 @@ app.layout = html.Div([
 )
 def update_output(ship_value, segment_value, state_value, month_value, week_value):
     filtered = data_copy(data,ship_value, segment_value, state_value, month_value, week_value)
-    return components.avg_shipping(filtered), components.shipping_modes(filtered)
+    return components.avg_shipping(filtered), components.shipping_modes(filtered), components.order_by_segment(filtered)
 
 
 

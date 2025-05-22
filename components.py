@@ -158,7 +158,7 @@ def shipping_modes(obj):
         ], className='card-content')
     ], className='component-section')
 
-def order_by_segment():
+def order_by_segment(obj):
     """
     :return: Dash html.Div component containing Customer Segments
     """
@@ -166,15 +166,15 @@ def order_by_segment():
         html.Div([
             html.H3('Order Distribution by Customer Segment', className="section-title"),
             dcc.Graph(figure=pie(
-                data.orders_per_segment_info,
+                obj.orders_per_segment_info,
                 'count',
                 'Segment',
                 color_sequence=["#28f6a7", "#00ac69", "#275e49", "#2d2d2d"]),
 
             ),
             dash_table.DataTable(
-                data.orders_per_segment_info.to_dict('records'),
-                [{"name": i, "id": i} for i in data.orders_per_segment_info.columns],
+                obj.orders_per_segment_info.to_dict('records'),
+                [{"name": i, "id": i} for i in obj.orders_per_segment_info.columns],
             style_cell={'textAlign':'left'}
             )
 
@@ -301,7 +301,7 @@ def serve_layout():
 
         # Segment and Location
         html.Div([
-            html.Div(order_by_segment(), className='card-half', id='order_by_segment'),
+            html.Div(className='card-half', id='order_by_segment'),
             html.Div(order_by_location(), className='card-half', id='order_by_location'),
         ], className='row'),
 
