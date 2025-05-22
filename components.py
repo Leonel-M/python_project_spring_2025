@@ -121,7 +121,7 @@ def avg_shipping(obj):
             ], className='section-summary'),
 
             dcc.Graph(figure=histogram(
-                data.df,
+                obj.df,
                 'Shipping_Time',
                 'Days to Ship',
                 'Number of Orders',
@@ -132,7 +132,7 @@ def avg_shipping(obj):
 
     ], className='component-section')
 
-def shipping_modes():
+def shipping_modes(obj):
     """
     :return: Dash html.Div component containing Ship Modes
     """
@@ -140,7 +140,7 @@ def shipping_modes():
         html.Div([
             html.H3('Average Shipping Time by Ship Mode', className="section-title"),
             dcc.Graph(figure= bar_chart(
-                data.ship_modes_info,
+                obj.ship_modes_info,
                 'Ship_Mode',
                 'Shipping_Time',
                 'Ship Mode',
@@ -150,7 +150,7 @@ def shipping_modes():
             ),
             # https://dash.plotly.com/datatable
             dash_table.DataTable(
-                data.ship_modes_info.to_dict('records'),
+                obj.ship_modes_info.to_dict('records'),
                 [{"name": i, "id": i} for i in data.ship_modes_info.columns],
             style_cell={'textAlign':'left'}
             )
@@ -296,7 +296,7 @@ def serve_layout():
         # Shipping overview and modes
         html.Div([
             html.Div( className='card-half', id='avg_shipping'),
-            html.Div(shipping_modes(), className='card-half', id='shipping_modes'),
+            html.Div( className='card-half', id='shipping_modes'),
         ], className='row'),
 
         # Segment and Location
