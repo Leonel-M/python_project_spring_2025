@@ -23,6 +23,31 @@ us_state_abbrev = {
 def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week_value):
     new_obj = Data()
     new_obj.df = old_obj.df.copy()
+    df = new_obj.df
+
+    # isin() in Pandas is used to check if the values of a column or DataFrame are present in a specified list, series or DataFrame.
+    # return True or False
+    if ship_value:
+        df = df[df['Ship_Mode'].isin(ship_value)]
+    if segment_value:
+        df = df[df['Segment'].isin(segment_value)]
+    if state_value:
+        df = df[df['State'].isin(state_value)]
+    if month_value:
+        df = df[df['Order_Month'].isin(month_value)]
+    if week_value:
+        df = df[df['Order_Weekday'].isin(week_value)]
+
+    # Update the new object
+    new_obj.df = df
+    new_obj.avg_shipping_info = new_obj.shipping_time()
+    new_obj.ship_modes_info = new_obj.shipping_by_mode()
+    new_obj.orders_per_segment_info = new_obj.orders_per_segment()
+    new_obj.orders_per_month_info = new_obj.orders_per_month()
+    new_obj.orders_per_week_info = new_obj.orders_per_week()
+    new_obj.orders_per_state_info = new_obj.orders_per_state()
+    new_obj.orders_per_city_info = new_obj.orders_per_city()
+
     return new_obj
 
 
@@ -33,15 +58,15 @@ class Data:
         self.df['Ship_Date'] = self.get_datetime('Ship_Date')
         self.df['Order_Date'] = self.get_datetime('Order_Date')
         self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
-        self.avg_shipping = self.shipping_time()
-        self.ship_modes = self.shipping_by_mode()
-        self.orders_per_segment = self.orders_per_segment()
+        self.avg_shipping_info = self.shipping_time()
+        self.ship_modes_info = self.shipping_by_mode()
+        self.orders_per_segment_info = self.orders_per_segment()
         self.df['Order_Month'] = self.df['Order_Date'].dt.month_name()  # https://stackoverflow.com/questions/74015822/how-to-extract-year-and-month-from-string-in-a-dataframe
         self.df['Order_Weekday'] = self.df['Order_Date'].dt.day_name()
-        self.orders_per_month = self.orders_per_month()
-        self.orders_per_week = self.orders_per_week()
-        self.orders_per_state = self.orders_per_state()
-        self.orders_per_city = self.orders_per_city()
+        self.orders_per_month_info = self.orders_per_month()
+        self.orders_per_week_info = self.orders_per_week()
+        self.orders_per_state_info = self.orders_per_state()
+        self.orders_per_city_info = self.orders_per_city()
     def get_data(self):
         """
         Read CSV file
@@ -124,5 +149,5 @@ csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = Data(csv_file)
 
-filtered = data_copy(data,None,None,None,None,None)
+filtered = data_copy(data,['First Class'],None,None,None,None)
 print(filtered.df.info())

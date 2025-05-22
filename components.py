@@ -113,11 +113,11 @@ def avg_shipping():
         html.Div([
             html.H3('Shipping Time Overview', className='section-title'),
             html.Div([
-                html.P(f'Avg: {data.avg_shipping["mean"]:.2f} days'),
-                html.P(f'min: {data.avg_shipping["min"]} days'),
-                html.P(f'Median: {data.avg_shipping["50%"]} days'),
-                html.P(f'Max: {data.avg_shipping["max"]} days'),
-                html.P(f'Std Dev: {data.avg_shipping["std"]:.2f} days')
+                html.P(f'Avg: {data.avg_shipping_info["mean"]:.2f} days'),
+                html.P(f'min: {data.avg_shipping_info["min"]} days'),
+                html.P(f'Median: {data.avg_shipping_info["50%"]} days'),
+                html.P(f'Max: {data.avg_shipping_info["max"]} days'),
+                html.P(f'Std Dev: {data.avg_shipping_info["std"]:.2f} days')
             ], className='section-summary'),
 
             dcc.Graph(figure=histogram(
@@ -140,7 +140,7 @@ def shipping_modes():
         html.Div([
             html.H3('Average Shipping Time by Ship Mode', className="section-title"),
             dcc.Graph(figure= bar_chart(
-                data.ship_modes,
+                data.ship_modes_info,
                 'Ship_Mode',
                 'Shipping_Time',
                 'Ship Mode',
@@ -150,8 +150,8 @@ def shipping_modes():
             ),
             # https://dash.plotly.com/datatable
             dash_table.DataTable(
-                data.ship_modes.to_dict('records'),
-                [{"name": i, "id": i} for i in data.ship_modes.columns],
+                data.ship_modes_info.to_dict('records'),
+                [{"name": i, "id": i} for i in data.ship_modes_info.columns],
             style_cell={'textAlign':'left'}
             )
 
@@ -166,15 +166,15 @@ def order_by_segment():
         html.Div([
             html.H3('Order Distribution by Customer Segment', className="section-title"),
             dcc.Graph(figure=pie(
-                data.orders_per_segment,
+                data.orders_per_segment_info,
                 'count',
                 'Segment',
                 color_sequence=["#28f6a7", "#00ac69", "#275e49", "#2d2d2d"]),
 
             ),
             dash_table.DataTable(
-                data.orders_per_segment.to_dict('records'),
-                [{"name": i, "id": i} for i in data.orders_per_segment.columns],
+                data.orders_per_segment_info.to_dict('records'),
+                [{"name": i, "id": i} for i in data.orders_per_segment_info.columns],
             style_cell={'textAlign':'left'}
             )
 
@@ -189,13 +189,13 @@ def order_by_location():
         html.Div([
             html.H3('Order volume by location',className="section-title"),
             dcc.Graph(figure=us_state_map(
-                data.orders_per_state,
+                data.orders_per_state_info,
                 'State_Code',
                 'Order_Count',
             )),
             dash_table.DataTable(
-                data.orders_per_city.to_dict('records'),
-                [{"name": i, "id": i} for i in data.orders_per_city.columns],
+                data.orders_per_city_info.to_dict('records'),
+                [{"name": i, "id": i} for i in data.orders_per_city_info.columns],
                 style_table={'height': '200px',
                              'overflowY': 'auto'},
                 style_cell={'textAlign': 'left'}
@@ -212,7 +212,7 @@ def order_trends():
                 html.Div([
                     html.H3('Monthly and Weekly Order Patterns', className="section-title"),
                     dcc.Graph(figure=bar_chart(
-                        data.orders_per_month,
+                        data.orders_per_month_info,
                         'Month',
                         'Order_Count',
                         'Month',
@@ -221,7 +221,7 @@ def order_trends():
                         'Orders per Month'
                     )),
                     dcc.Graph(figure=bar_chart(
-                        data.orders_per_week,
+                        data.orders_per_week_info,
                         'Weekday',
                         'Order_Count',
                         'Weekday',
@@ -249,31 +249,31 @@ def filter_bar():
         html.Div([
             dcc.Dropdown(
                 id='filter-ship',
-                options=[{'label': i, 'value': i} for i in data.ship_modes['Ship_Mode'].unique()],
+                options=[{'label': i, 'value': i} for i in data.ship_modes_info['Ship_Mode'].unique()],
                 multi=True, placeholder='Filter by Ship Mode...',
                 value= None
                 ),
             dcc.Dropdown(
                 id='filter-segment',
-                options=[{'label': i, 'value': i} for i in data.orders_per_segment['Segment'].unique()],
+                options=[{'label': i, 'value': i} for i in data.orders_per_segment_info['Segment'].unique()],
                 multi=True, placeholder='Filter by Customer Segment...',
                 value= None
             ),
             dcc.Dropdown(
                 id='filter-state',
-                options=[{'label': i, 'value': i} for i in data.orders_per_state['State'].unique()],
+                options=[{'label': i, 'value': i} for i in data.orders_per_state_info['State'].unique()],
                 multi=True, placeholder='Filter by State...',
                 value= None
             ),
             dcc.Dropdown(
                 id='filter-month',
-                options=[{'label': i, 'value': i} for i in data.orders_per_month['Month'].unique()],
+                options=[{'label': i, 'value': i} for i in data.orders_per_month_info['Month'].unique()],
                 multi=True, placeholder='Filter by Month...',
                 value= None
             ),
             dcc.Dropdown(
                 id='filter-week',
-                options=[{'label': i, 'value': i} for i in data.orders_per_week['Weekday'].unique()],
+                options=[{'label': i, 'value': i} for i in data.orders_per_week_info['Weekday'].unique()],
                 multi=True, placeholder='Filter by Weekday...',
                 value= None
             )
