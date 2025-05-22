@@ -20,10 +20,10 @@ us_state_abbrev = {
     'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
 
-def filter_df(df, ship=None, segment=None, state=None, month=None, week=None):
+def filter_df(object, ship=None, segment=None, state=None, month=None, week=None):
     """
     Creates a dataframe of the data with multiple filters so as not to modify the original one
-    :param df: Original DataFrame
+    :param object: Original object
     :param ship:  Ship list
     :param segment: Segment list
     :param state: State list
@@ -31,21 +31,33 @@ def filter_df(df, ship=None, segment=None, state=None, month=None, week=None):
     :param week: Week list
     :return: DataFrame filtered
     """
-    filtered_df = df.copy()
+    new_object = DataFrame(df=object.df.copy()) #  a new object with a copy of the original df
+
+    df = new_object.df
 
     # isin() in Pandas is used to check if the values of a column or DataFrame are present in a specified list, series or DataFrame.
+    # return True or False
     if ship:
-        filtered_df = filtered_df.ship_modes['Ship_Mode'].isin(ship)
+        df = df[df['Ship_Mode'].isin(ship)]
     if segment:
-        filtered_df = filtered_df.orders_per_segment['Segment'].isin(ship)
+        df = df[df['Segment'].isin(segment)]
     if state:
-        filtered_df = filtered_df.orders_per_state['State'].isin(ship)
+        df = df[df['State'].isin(state)]
     if month:
-        filtered_df = filtered_df.orders_per_month['Month'].isin(ship)
+        df = df[df['Order_Month'].isin(month)]
     if week:
-        filtered_df = filtered_df.orders_per_week['Weekday'].isin(ship)
+        df = df[df['Order_Weekday'].isin(week)]
 
-    return filtered_df
+    # Update the new object
+    new_object.df = df
+    new_object.avg_shipping = new_object.shipping_time()
+    new_object.ship_modes = new_object.shipping_by_mode()
+    new_object.orders_per_segment = new_object.orders_per_segment()
+    new_object.orders_per_month = new_object.orders_per_month()
+    new_object.orders_per_week = new_object.orders_per_week()
+    new_object.orders_per_state = new_object.orders_per_state()
+    new_object.orders_per_city = new_object.orders_per_city()
+    return new_object
 
 class DataFrame:
     def __init__(self, in_path):
@@ -102,8 +114,9 @@ class DataFrame:
         """
         :return: DataFrame with Client's Segments and Clients per Segment
         """
-        count = self.df['Segment'].value_counts()
-        return count.reset_index()
+        count = self.df['Segment'].value_counts().reset_index()
+        count.columns = ['Segment', 'Order_Count']
+        return count
 
     def orders_per_month(self):
         """
@@ -133,13 +146,15 @@ class DataFrame:
         :return: DataFrame with states and order counts
         """
         count = self.df['State'].value_counts().reset_index()
+        count.columns = ['State', 'Order_Count']
         # https: // www.geeksforgeeks.org / python - map - function /
         count['State_Code'] = count['State'].map(us_state_abbrev)
-        return count.rename(columns={'count':'Order_Count'})
+        return count
 
     def orders_per_city(self):
         count = self.df['City'].value_counts().reset_index()
-        return count.rename(columns={'count':'Order_Count'})
+        count.columns = ['City', 'Order_Count']
+        return count
 
 csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
