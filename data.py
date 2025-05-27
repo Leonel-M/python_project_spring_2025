@@ -1,9 +1,15 @@
-from itertools import count
+"""
+data.py
+
+Defines the SuperstoreData class responsible for loading and preprocessing
+the sales dataset used in the dashboard.
+"""
 
 import pandas as pd
 # https://stackoverflow.com/questions/66831999/how-to-import-csv-as-a-pandas-dataframe
 import os
 
+# Dictionary mapping U.S. state names to their standard two-letter postal abbreviations.
 us_state_abbrev = {
     'Alabama': 'AL', 'Alaska': 'AK', 'Arizona': 'AZ', 'Arkansas': 'AR',
     'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE',
@@ -21,6 +27,16 @@ us_state_abbrev = {
 }
 
 def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week_value):
+    """
+    Creates a filtered copy of a Data object based on selected filter values.
+    :param old_obj: The original Data object to copy and filter.
+    :param ship_value: Selected shipping modes.
+    :param segment_value: Selected customer segments.
+    :param state_value: Selected states.
+    :param month_value: Selected order months.
+    :param week_value: Selected weekdays.
+    :return: A new Data object containing the filtered DataFrame and updated summaries.
+    """
     new_obj = Data()
     new_obj.df = old_obj.df.copy()
     df = new_obj.df
@@ -50,9 +66,16 @@ def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week
 
     return new_obj
 
-
 class Data:
+    """
+    Class to load and preprocess the Superstore dataset for analysis.
+    """
     def __init__(self, in_path=None):
+        """
+        Initializes the data loader with the path to the CSV file.
+
+        :Args: file_path (str): Relative path to the CSV file.
+        """
         self.path = in_path
         self.df = self.get_data()
         self.df['Ship_Date'] = self.get_datetime('Ship_Date')
@@ -67,6 +90,7 @@ class Data:
         self.orders_per_week_info = self.orders_per_week()
         self.orders_per_state_info = self.orders_per_state()
         self.orders_per_city_info = self.orders_per_city()
+
     def get_data(self):
         """
         Read CSV file
@@ -91,6 +115,10 @@ class Data:
         return pd.to_datetime(self.df[column],format='%d/%m/%Y')
 
     def shipping_time(self):
+        """
+        Generates descriptive statistics for the 'Shipping_Time' column.
+        :return: pd.Series: Summary statistics including count, mean, std, min, max, and quartiles.
+        """
         return self.df['Shipping_Time'].describe()
 
     def shipping_by_mode(self):
@@ -134,6 +162,7 @@ class Data:
 
     def orders_per_state(self):
         """
+        Calculates the number of orders per state.
         :return: DataFrame with states and order counts
         """
         count = self.df['State'].value_counts().reset_index()
@@ -142,6 +171,10 @@ class Data:
         return count.rename(columns={'count':'Order_Count'})
 
     def orders_per_city(self):
+        """
+        Calculates the number of orders per city.
+        :return: DataFrame with cities and order counts
+        """
         count = self.df['City'].value_counts().reset_index()
         return count.rename(columns={'count':'Order_Count'})
 
@@ -149,5 +182,4 @@ csv_file = os.path.join('data','superstore_final_dataset (1).csv')
 
 data = Data(csv_file)
 
-filtered = data_copy(data,['First Class'],None,None,None,None)
-#print(filtered.df.info())
+filtered = data_copy(data,None,None,None,None,None)

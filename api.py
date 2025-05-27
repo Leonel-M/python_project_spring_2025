@@ -1,5 +1,18 @@
 """
-https://github.com/Kaggle/kaggle-api
+Script to automatically download and extract the Superstore Sales dataset
+from Kaggle using the Kaggle API.
+
+Dataset source:
+https://www.kaggle.com/datasets/bhanupratapbiswas/superstore-sales
+
+Requirements:
+- kaggle API credentials configured (~/.kaggle/kaggle.json)
+- kaggle package installed (`pip install kaggle`)
+
+This script:
+- Authenticates with the Kaggle API
+- Downloads the dataset as a zip file
+- Extracts it into the specified local folder
 """
 
 import os

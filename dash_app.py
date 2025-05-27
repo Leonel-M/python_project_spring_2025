@@ -16,6 +16,7 @@ import components
 scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map.htm
 """
 
+# Initialize the dash application
 app = Dash()
 
 # Requires Dash 2.17.0 or later
@@ -25,6 +26,7 @@ app.layout = html.Div([
     ])
 
 # Callback function
+# Register all interactive callbacks for the dashboard
 @callback(
     Output('avg_shipping', 'children'),
     Output('shipping_modes', 'children'),
@@ -37,12 +39,20 @@ app.layout = html.Div([
     Input('filter-month', 'value'),
     Input('filter-week', 'value')
 
-    #State('input-id', 'value')
 )
+# This connects the UI filters with chart updates
 def update_output(ship_value, segment_value, state_value, month_value, week_value):
+    """
+    Updates all dashboard visual components based on user-selected filters.
+    :param ship_value: Selected shipping modes.
+    :param segment_value: elected customer segments.
+    :param state_value: Selected states.
+    :param month_value: Selected months.
+    :param week_value: Selected weekdays.
+    :return: A tuple of Dash components (graphs) reflecting the updated data.
+    """
     filtered = data_copy(data,ship_value, segment_value, state_value, month_value, week_value)
     return components.avg_shipping(filtered), components.shipping_modes(filtered), components.order_by_segment(filtered),components.order_by_location(filtered), components.order_trends(filtered)
-
 
 
 if __name__ == '__main__':

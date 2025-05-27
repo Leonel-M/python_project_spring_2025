@@ -1,3 +1,10 @@
+"""
+components.py
+
+Defines layout and visual components for the Superstore dashboard.
+Includes dropdown filters, date pickers, and interactive charts using Plotly.
+"""
+
 from data import data
 from dash import html,dcc,dash_table
 import dash_bootstrap_components as dbc
@@ -105,7 +112,6 @@ def header():
         html.Img(src='assets/icon.png', id='icon'),
         html.H1('Superstore Sales'),
     ], id='id_header')
-# https://dash-bootstrap-components.opensource.faculty.ai/docs/components/card/
 def avg_shipping(obj):
     """
     :return: Dash html.Div component containing shipping orders
@@ -132,7 +138,6 @@ def avg_shipping(obj):
         ], className='card-content'),
 
     ], className='component-section')
-
 def shipping_modes(obj):
     """
     :return: Dash html.Div component containing Ship Modes
@@ -158,7 +163,6 @@ def shipping_modes(obj):
 
         ], className='card-content')
     ], className='component-section')
-
 def order_by_segment(obj):
     """
     :return: Dash html.Div component containing Customer Segments
@@ -181,7 +185,6 @@ def order_by_segment(obj):
 
         ],className="card-content")
     ], className="component-section")
-
 def order_by_location(obj):
     """
     :return: Dash html.Div component containing Order Volume Locations
@@ -204,7 +207,6 @@ def order_by_location(obj):
 
         ], className="card-content")
     ], className="component-section")
-
 def order_trends(obj):
     """
     :return: Dash html.Div component containing monthly and Weekly order patterns
@@ -284,6 +286,10 @@ def filter_bar():
 
 # Principal Layout
 def serve_layout():
+    """
+    Builds the main layout of the dashboard.
+    :Returns: html.Div: Complete layout for the Dash app.
+    """
     return html.Div([
         header(),
 
@@ -313,4 +319,3 @@ def serve_layout():
 
     ],id='app')
 
-#print(serve_layout())
