@@ -5,6 +5,7 @@ This project is an interactive web application built with **Dash (Plotly + Flask
 ---
 
 ## 📁 Project Structure
+```
 python_project_spring_2025/
 ├── dash_app.py # Main Dash app file
 ├── components.py # Layout components and charts
@@ -15,27 +16,28 @@ python_project_spring_2025/
 │ └── styles.css # Custom styles (if any)
 │ └── icon.png
 └── README.md # Project documentation
-
+```
 ---
 
 ## 🚀 How to Run the App
 
 ### 1. Clone the repository
-
+```
 git clone https://github.com/Leonel-M/python_project_spring_2025.git 
 
 cd python_project_spring_2025
-
+```
 ### 2. Create a virtual environment (optional but recommended)
-
+```
 python -m venv .venv
 .venv\Scripts\activate    # On Windows
 Or on macOS/Linux:
 source .venv/bin/activate
-
+```
 ### 3. Install the required dependencies
+```
 pip install -r requirements.txt
-
+```
 ### 4. Run the application
 python dash_app.py
 The app will be available at: http://127.0.0.1:8050
