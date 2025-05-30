@@ -18,7 +18,7 @@ scatter_map configuration https://docs.sisense.com/main/SisenseLinux/scatter-map
 
 # Initialize the dash application
 app = Dash()
-
+server = app.server
 # Requires Dash 2.17.0 or later
 app.layout = html.Div([
         components.serve_layout(),
