@@ -290,6 +290,9 @@ def serve_layout():
     Builds the main layout of the dashboard.
     :Returns: html.Div: Complete layout for the Dash app.
     """
+    if data.df is None or data.df.empty:
+        return html.Div(['No data available to display the dashboard.'], style={'padding': '2rem', 'fontSize': '1.2rem'})
+
     return html.Div([
         header(),
 

@@ -37,6 +37,10 @@ def data_copy(old_obj, ship_value, segment_value, state_value, month_value, week
     :param week_value: Selected weekdays.
     :return: A new Data object containing the filtered DataFrame and updated summaries.
     """
+    if not hasattr(old_obj,'df') or old_obj.df is None or old_obj.df.empty:
+        print('Empty original DataFrame. data_copy will return an empty Data.')
+        return Data(old_obj.path)
+
     new_obj = Data()
     new_obj.df = old_obj.df.copy()
     df = new_obj.df
@@ -78,6 +82,16 @@ class Data:
         """
         self.path = in_path
         self.df = self.get_data()
+        if self.df is None or self.df.empty:
+            print('Data could not be loaded. The Data instance will have an empty DataFrame.')
+            self.avg_shipping_info = None
+            self.ship_modes_info = pd.DataFrame()
+            self.orders_per_segment_info = pd.DataFrame()
+            self.orders_per_month_info = pd.DataFrame()
+            self.orders_per_week_info = pd.DataFrame()
+            self.orders_per_state_info = pd.DataFrame()
+            self.orders_per_city_info = pd.DataFrame()
+            return
         self.df['Ship_Date'] = self.get_datetime('Ship_Date')
         self.df['Order_Date'] = self.get_datetime('Order_Date')
         self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
@@ -96,8 +110,15 @@ class Data:
         Read CSV file
         :return: DataFrame
         """
-        df = pd.read_csv(csv_file, encoding='ISO-8859-1')  # alternative encoding with special characters
-        return df
+        try:
+            df = pd.read_csv(csv_file, encoding='ISO-8859-1')  # alternative encoding with special characters
+            return df
+        except FileNotFoundError:
+            print(f'Error: CSV file not found in "{self.path}" ')
+            return pd.DataFrame()  # Empty DataFrame
+        except Exception as e:
+            print(f'Error reading "{self.path}": {e}')
+            return pd.DataFrame()  # Empty DataFrame
 
     def get_info(self):
         """
