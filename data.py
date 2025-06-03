@@ -92,8 +92,8 @@ class Data:
             self.orders_per_state_info = pd.DataFrame()
             self.orders_per_city_info = pd.DataFrame()
             return
-        self.df['Ship_Date'] = self.get_datetime('Ship_Date')
-        self.df['Order_Date'] = self.get_datetime('Order_Date')
+        self.df['Ship_Date'] = (self.get_datetime('Ship_Date')) if ('Ship_Date' in self.df.columns) else pd.NA
+        self.df['Order_Date'] = (self.get_datetime('Order_Date')) if ('Order_Date' in self.df.columns) else pd.NA
         self.df['Shipping_Time'] = (self.df['Ship_Date'] - self.df['Order_Date']).dt.days
         self.avg_shipping_info = self.shipping_time()
         self.ship_modes_info = self.shipping_by_mode()
