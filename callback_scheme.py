@@ -12,22 +12,32 @@ from dash import Dash, Input, Output, State, html, dcc, callback
 
 app = Dash(__name__)
 
-app.layout = html.Div([
-    dcc.Input(id='input-id', type='text'),
-    html.Button('Enviar', id='button-id', n_clicks=0),
-    html.Div(id='output-id')
-])
+app.layout = html.Div(
+    [
+        dcc.Input(id="input-id", type="text"),
+        html.Button("Enviar", id="button-id", n_clicks=0),
+        html.Div(id="output-id"),
+    ]
+)
+
 
 # Callback function
 @callback(
-    Output('output-id', 'children'),  # Salida (id del componente, propiedad a actualizar)
-    Input('button-id', 'n_clicks'),   # Entrada (id del componente, propiedad a monitorear)
-    State('input-id', 'value')        # Estado opcional (para obtener valores sin activación directa)
+    Output(
+        "output-id", "children"
+    ),  # Salida (id del componente, propiedad a actualizar)
+    Input(
+        "button-id", "n_clicks"
+    ),  # Entrada (id del componente, propiedad a monitorear)
+    State(
+        "input-id", "value"
+    ),  # Estado opcional (para obtener valores sin activación directa)
 )
 def update_output(n_clicks, input_value):
     if n_clicks > 0:
         return f"Has escrito: {input_value}"
     return ""
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     app.run(debug=True)
